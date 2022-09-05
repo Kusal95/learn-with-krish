@@ -1,0 +1,24 @@
+.login,
+.image {
+    min-height: 100vh;
+}
+
+.bg-image {
+    background-image: url('../../../../assets/images/fuel-pump.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.btn-login {
+    color: white;
+    width: 250px;
+    height: auto;
+}
+
+.btn-gas-station {
+    background-color: #aa4c1e;
+}
+
+.btn-user {
+    background-color: #1f322c;
+}

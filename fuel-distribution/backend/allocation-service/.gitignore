@@ -1,0 +1,8 @@
+.env
+
+# npm
+dist
+node_modules
+package-lock.json
+*.log
+*.gz

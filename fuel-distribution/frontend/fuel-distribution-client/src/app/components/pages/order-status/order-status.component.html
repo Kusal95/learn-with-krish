@@ -1,0 +1,87 @@
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Fuel Order Status</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="position-relative row form-group">
+              <label class="col-sm-2 col-form-label">Key</label>
+              <div class="col-sm-4">
+                <input
+                  name="key"
+                  id="key"
+                  placeholder="Key"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="key"
+                />
+              </div>
+              <div class="col-sm-2">
+                <input
+                  type="submit"
+                  value="View Status"
+                  class="btn btn-primary form-control"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Order Details</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            class="table table-bordered"
+            id="dataTable"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr></tr>
+              <tr>
+                <th>Station Number</th>
+                <th>Fuel Type</th>
+                <th>Order Date</th>
+                <th>Quantity</th>
+                <th>Allocated</th>
+                <th>Scheduled</th>
+                <th>Dispatched</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="order; orderStatus">
+                <td>{{ order.stationNumber }}</td>
+                <td>{{ order.fuelType }}</td>
+                <td>{{ order.orderDate | date: "YYYY-MM-dd h:mm a" }}</td>
+                <td>{{ order.quantity }}L</td>
+                <td>
+                  <app-status
+                    [orderStatus]="orderStatus?.allocationStatus || ''"
+                  ></app-status>
+                </td>
+                <td>
+                  <app-status
+                    [orderStatus]="orderStatus?.scheduleStatus || ''"
+                  ></app-status>
+                </td>
+                <td>
+                  <app-status
+                    [orderStatus]="orderStatus?.dispatchStatus || ''"
+                  ></app-status>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="sidebar" [ngClass]="{ expanded: isExpanded }">
+  <div class="header">
+    <h1 class="title">{{ title }}</h1>
+    <div class="toggle" (click)="handleSidebarToggle()">
+      <span class="chevron"></span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="link" *ngIf="userTypeGasStation">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['new-order'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faGasPump"></fa-icon>
+        </div>
+        <div class="title">New Order</div>
+      </div>
+    </div>
+    <div class="link" *ngIf="userTypeGasStation">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['order-status'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faClockRotateLeft"></fa-icon>
+        </div>
+        <div class="title">Order Status</div>
+      </div>
+    </div>
+    <div class="link" *ngIf="userTypeUser">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['orders'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faGasPump"></fa-icon>
+        </div>
+        <div class="title">Orders</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</div>

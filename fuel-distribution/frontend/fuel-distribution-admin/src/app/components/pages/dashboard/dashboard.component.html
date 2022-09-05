@@ -1,0 +1,12 @@
+<div id="wrapper">
+  <app-sidebar
+    [isExpanded]="sidebarExpanded"
+    (toggleSidebar)="sidebarExpanded = !sidebarExpanded"
+  ></app-sidebar>
+</div>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="content" [ngClass]="{ sidebarExpanded: sidebarExpanded }">
+    <app-navbar [userType]="userType"></app-navbar>
+    <router-outlet name="dashboard"></router-outlet>
+  </div>
+</div>

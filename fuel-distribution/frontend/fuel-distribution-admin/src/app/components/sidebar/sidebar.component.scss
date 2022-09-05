@@ -1,0 +1,147 @@
+.chevron::before {
+  border-style: solid;
+  border-width: 0.15em 0.15em 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.35em;
+  left: 0.15em;
+  position: relative;
+  top: 0.3em;
+  vertical-align: top;
+  width: 0.35em;
+}
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  height: 100vh;
+  transition: 0.3s;
+
+  width: 60px;
+  &.expanded {
+    width: 200px;
+
+    .header {
+      h1 {
+        margin-left: 0px;
+      }
+      .chevron {
+        margin-left: 0px;
+        &::before {
+          transform: rotate(-135deg);
+        }
+      }
+    }
+    .content {
+      .link {
+        .content {
+          .title {
+            max-width: 100px;
+          }
+          .icon {
+            margin-right: 3px;
+          }
+        }
+        .children {
+          .content {
+            padding-left: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  background-color: #4e73df;
+  color: black;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 1px solid white;
+
+    background: #4e73df;
+
+    h1 {
+      font-size: 20px;
+      color: black;
+      margin: 0;
+      flex: 1;
+      transition: 0.3s;
+      margin-left: -100px;
+    }
+
+    .chevron {
+      color: black;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-left: -25px;
+
+      padding: 10px;
+      min-width: 30px;
+      height: 35px;
+      display: block;
+      text-align: center;
+
+      &::before {
+        transition: 0.3s;
+        transform: rotate(45deg);
+      }
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  .content {
+    .link {
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        height: 60px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        &:hover {
+          background: #3c40c6;
+          .title {
+            color: white;
+          }
+          svg {
+            fill: white;
+          }
+        }
+
+        &.active {
+          background: #3c40c6;
+          .title {
+            color: white;
+          }
+        }
+
+        .icon {
+          flex: 0 0 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 0px;
+        }
+        .title {
+          flex: 1;
+          // display: none;
+          color: black;
+          transition: 0.3s;
+          max-width: 0px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

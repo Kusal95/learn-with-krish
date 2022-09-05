@@ -1,0 +1,47 @@
+<div class="sidebar" [ngClass]="{ expanded: isExpanded }">
+  <div class="header">
+    <h1 class="title">{{ title }}</h1>
+    <div class="toggle" (click)="handleSidebarToggle()">
+      <span class="chevron"></span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="link">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['orders'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faGasPump"></fa-icon>
+        </div>
+        <div class="title">Orders</div>
+      </div>
+    </div>
+    <div class="link">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['dispatch'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faTruckArrowRight"></fa-icon>
+        </div>
+        <div class="title">Dispatch</div>
+      </div>
+    </div>
+    <div class="link">
+      <div
+        class="content"
+        [routerLink]="[{ outlets: { dashboard: ['stock'] } }]"
+        [routerLinkActive]="['active']"
+      >
+        <div class="icon">
+          <fa-icon [icon]="faWarehouse"></fa-icon>
+        </div>
+        <div class="title">Stock</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</div>

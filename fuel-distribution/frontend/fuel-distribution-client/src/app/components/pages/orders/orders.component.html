@@ -1,0 +1,77 @@
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Fuel Orders</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="position-relative row form-group">
+              <label class="col-sm-2 col-form-label">Station Number</label>
+              <div class="col-sm-4">
+                <input
+                  name="stationNumber"
+                  id="stationNumber"
+                  placeholder="Station Number"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="stationNumber"
+                />
+              </div>
+              <div class="col-sm-2">
+                <input
+                  type="submit"
+                  value="View Oders"
+                  class="btn btn-primary form-control"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Order Details</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            class="table table-bordered"
+            id="dataTable"
+            width="100%"
+            cellspacing="0"
+          >
+            <thead>
+              <tr></tr>
+              <tr>
+                <th>Fuel Type</th>
+                <th>Quantity</th>
+                <th>Order Date</th>
+                <th>Scheduled Date</th>
+                <th>Dispatched Date</th>
+                <th>Received Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>{{ order.fuelType }}</td>
+                <td>{{ order.quantity }}L</td>
+                <td>{{ order.orderDate | date: "YYYY-MM-dd h:mm a" }}</td>
+                <td>{{ order.orderStatus?.scheduledDate }}</td>
+                <td>{{ order.orderStatus?.dispatchedDate }}</td>
+                <td>
+                  {{
+                    order.orderStatus?.receivedDate | date: "YYYY-MM-dd h:mm a"
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

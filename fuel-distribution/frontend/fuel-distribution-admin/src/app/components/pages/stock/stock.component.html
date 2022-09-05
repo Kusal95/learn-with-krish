@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Fuel Stock</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <!-- Circle Buttons -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Stock Update</h6>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="position-relative form-group">
+                <label class="">Fuel Type</label>
+                <select
+                  class="form-select"
+                  name="fuelTypeOption"
+                  id="fuelTypeOption"
+                  [(ngModel)]="fuelType"
+                >
+                  <option default value="">Select Type</option>
+                  <option value="92-Petrol">92-Petrol</option>
+                  <option value="95-Petrol">95-Petrol</option>
+                  <option value="Super-Diesel">Super-Diesel</option>
+                </select>
+              </div>
+
+              <div class="position-relative form-group">
+                <label>Quantity</label>
+                <div class="input-group">
+                  <input
+                    placeholder="0"
+                    type="number"
+                    name="quantity"
+                    class="form-control"
+                    [(ngModel)]="quantity"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">Litres</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <input
+              type="submit"
+              value="Update Stock"
+              class="btn btn-primary form-control"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Stocks</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>Fuel Type</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <!-- <tfoot>
+                  <tr>
+                    <th>Station Number</th>
+                    <th>Fuel Type</th>
+                    <th>Order Date</th>
+                    <th>Quantity</th>
+                  </tr>
+                </tfoot> -->
+              <tbody>
+                <tr *ngFor="let stock of stocks">
+                  <td>{{ stock.fuelType }}</td>
+                  <td>{{ stock.stockQuantity }}L</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
