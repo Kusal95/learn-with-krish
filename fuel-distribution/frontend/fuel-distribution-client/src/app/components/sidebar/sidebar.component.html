@@ -30,7 +30,7 @@
         <div class="title">Order Status</div>
       </div>
     </div>
-    <div class="link" *ngIf="userTypeUser">
+    <div class="link" *ngIf="userTypeUser || userTypeGasStation">
       <div
         class="content"
         [routerLink]="[{ outlets: { dashboard: ['orders'] } }]"

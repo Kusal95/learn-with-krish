@@ -32,15 +32,30 @@
                 <td>{{ order.fuelType }}</td>
                 <td>{{ order.quantity }}L</td>
                 <td>{{ order.orderDate | date: "YYYY-MM-dd h:mm a" }}</td>
-                <td>
-                  {{ order.orderStatus?.scheduledDate }}
+
+                <td
+                  *ngIf="
+                    order.orderStatus?.allocationStatus === 'Failed';
+                    else elseTpl
+                  "
+                  colspan="3"
+                  class="allocation-failed"
+                >
+                  Allocation Failed
+                  <ng-container *ngTemplateOutlet="elseTpl"></ng-container>
                 </td>
-                <td>{{ order.orderStatus?.dispatchedDate }}</td>
-                <td>
-                  {{
-                    order.orderStatus?.receivedDate | date: "YYYY-MM-dd h:mm a"
-                  }}
-                </td>
+                <ng-template #elseTpl>
+                  <td>
+                    {{ order.orderStatus?.scheduledDate }}
+                  </td>
+                  <td>{{ order.orderStatus?.dispatchedDate }}</td>
+                  <td>
+                    {{
+                      order.orderStatus?.receivedDate
+                        | date: "YYYY-MM-dd h:mm a"
+                    }}
+                  </td>
+                </ng-template>
               </tr>
             </tbody>
           </table>
