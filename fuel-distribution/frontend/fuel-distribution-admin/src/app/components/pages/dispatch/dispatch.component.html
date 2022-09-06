@@ -30,8 +30,8 @@
               <tr *ngFor="let order of orders">
                 <td>{{ order.stationNumber }}</td>
                 <td>{{ order.fuelType }}</td>
-                <td>{{ order.orderDate }}</td>
-                <td>{{ order.quantity }}</td>
+                <td>{{ order.orderDate | date: "YYYY-MM-dd h:mm a" }}</td>
+                <td>{{ order.quantity }}L</td>
                 <td>{{ order.orderStatus?.scheduledDate }}</td>
                 <td>
                   <button

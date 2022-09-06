@@ -6,8 +6,6 @@ import { OrderService } from './../../../services/order.service';
 import { Component, OnInit } from '@angular/core';
 import * as dayjs from 'dayjs';
 import { ClipboardService } from 'ngx-clipboard';
-import * as localizedFormat from 'dayjs/plugin/localizedFormat';
-dayjs.extend(localizedFormat);
 
 @Component({
   selector: 'app-new-order',
@@ -47,13 +45,12 @@ export class NewOrderComponent implements OnInit {
       alert('Please add fuel quantity');
       return;
     }
-    const date = dayjs(dayjs()).toDate();
 
     const newOrder: Order = {
       stationNumber: this.stationNumber,
       fuelType: this.fuelType,
       quantity: this.quantity,
-      orderDate: date,
+      orderDate: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
       generatedKey: '',
     };
 
@@ -82,7 +79,7 @@ export class NewOrderComponent implements OnInit {
   }
   Received(key: string) {
     this.orderService
-      .setOrderReceived(key, dayjs(new Date()).toISOString())
+      .setOrderReceived(key, dayjs().format('YYYY-MM-DDTHH:mm:ss'))
       .subscribe((order) => {
         this.orders = this.orders.map((o) => {
           if (order.orderId === o.orderId) {

@@ -90,7 +90,7 @@ const kafkaListener = async () => {
                 } else {
                   produceEvent(
                     process.env.SERVICE_NAME || "error",
-                    "ALLOCATION-FAILED",
+                    "ALLOCATION_FAILED",
                     key,
                     "FAILED",
                     "Not enought stock for allocate",
@@ -103,7 +103,7 @@ const kafkaListener = async () => {
           } else {
             produceEvent(
               process.env.SERVICE_NAME || "error",
-              "ALLOCATION-FAILED",
+              "ALLOCATION_FAILED",
               key,
               "FAILED",
               "No stock for allocate",
@@ -154,7 +154,9 @@ const kafkaListener = async () => {
           key,
           "SUCCESS",
           "Order dispatched",
-          JSON.stringify({ dispatchedDate: today }),
+          JSON.stringify({
+            dispatchedDate: today,
+          }),
           process.env.ORDER_RESPONSE_TOPIC || "error"
         );
       }

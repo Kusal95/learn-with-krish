@@ -5,12 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.kusal.orderservice.model.Event;
 import com.kusal.orderservice.model.ScheduleData;
 import com.kusal.orderservice.util.GsonLocalDate;
+import com.kusal.orderservice.util.GsonLocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
@@ -32,8 +34,7 @@ public class KafkaConsumer {
             if (event.getType().equals("ALLOCATION_COMPLETE")
                     || event.getType().equals("DISPATCH_COMPLETE")
                     || event.getType().equals("SCHEDULE_COMPLETE")
-                    || event.getType().equals("ALLOCATION-FAILED")
-        || event.getType().equals("ALLOCATION-FAILED")) {
+                    || event.getType().equals("ALLOCATION_FAILED")) {
                 orderService.UpdateOrderStatus(event);
                 System.out.println(event.getMessage());
                 notifyFrontend("order-status", event.getMessage());

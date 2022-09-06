@@ -5,6 +5,6 @@ export interface Order {
   fuelType: string;
   generatedKey: string;
   quantity: number;
-  orderDate: Date;
+  orderDate: string;
   orderStatus?: OrderStatus;
 }

@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
                 orderStatus.setDispatchStatus(SUCCESS);
                 orderStatus.setDispatchedDate(dispatchData.getDispatchedDate());
                 break;
-            case "ALLOCATION-FAILED":
+            case "ALLOCATION_FAILED":
                 orderStatus.setAllocationStatus(FAILED);
         }
     }

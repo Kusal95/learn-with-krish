@@ -22,8 +22,8 @@ public class OrderController {
     @CrossOrigin
     @PostMapping
     public ResponseEntity<FuelOrder> newOrder(@RequestBody FuelOrder order) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("order-api/v1/order").toUriString());
-        return ResponseEntity.created(uri).body(orderService.saveOrder(order));
+      URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("order-api/v1/order").toUriString());
+       return ResponseEntity.created(uri).body(orderService.saveOrder(order));
     }
 
     @CrossOrigin
