@@ -1,13 +1,13 @@
-import { Stock } from "./../types/stock";
+import { Stock } from "../types/stock";
 import { orderData } from "../types/order-data";
 import { Kafka } from "kafkajs";
 import kafkaProducer from "./kafka-producer";
 import { Event } from "../types/event";
-import dayjs from "dayjs";
+
 import * as stockService from "../services/stock-service";
 import * as stockAllocationService from "../services/stock-allocation-service";
-import * as dispatchService from "../services/disptach-serivce";
 import { StockAllocation } from "../types/stock-allocation";
+import logger from "../logger/logger";
 
 const kafka = new Kafka({
   clientId: process.env.CLIENT_ID,
@@ -15,23 +15,22 @@ const kafka = new Kafka({
 });
 
 const consumer = kafka.consumer({
-  groupId: process.env.CONSUMER_GROUP || "default",
+  groupId: process.env.ALLOCATION_CONSUMER_GROUP || "default",
 });
 
-const kafkaListener = async () => {
+const allocationListener = async () => {
   await consumer.connect();
   await consumer.subscribe({
-    topics: [
-      process.env.ALLOCATION_TOPIC || "error",
-      process.env.ALLOCATION_RESPONSE_TOPIC || "error",
-    ],
+    topic: process.env.ALLOCATION_TOPIC || "error",
     fromBeginning: true,
   });
   await consumer.run({
+    autoCommit: false,
     eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
-      console.log(
-        `Listener received message from ${topic}: message : ${message.value?.toString()}`
+      logger.info(
+        `Allocation topic listener received message from ${topic}: message : ${message.value?.toString()}`
       );
+
       const messageValue: Event = JSON.parse(message.value?.toString() || "{}");
       const type: string = messageValue.type;
 
@@ -63,6 +62,7 @@ const kafkaListener = async () => {
                     order_id: orderId,
                     quantity: quantity,
                   };
+
                   stockAllocationService.create(
                     stockAllocation,
                     (err: Error, result: any) => {
@@ -112,54 +112,15 @@ const kafkaListener = async () => {
             );
           }
         });
-      } else if (type == "SCHEDULED") {
-        const key: string = messageValue.key;
-        const scheduledData = JSON.parse(messageValue.data);
-        const orderId = scheduledData.orderId;
-        const today = dayjs().format("YYYY-MM-DD");
-
-        stockAllocationService.findOne(
-          orderId,
-          (err: Error, allocatedStock: StockAllocation) => {
-            if (allocatedStock) {
-              dispatchService.create(
-                orderId,
-                new Date(today),
-                allocatedStock.quantity
-              );
-
-              stockService.findOneById(
-                allocatedStock.idstock,
-                (err: Error, stock: Stock) => {
-                  if (stock) {
-                    const updatedStock =
-                      stock.stockQuantity - allocatedStock.quantity;
-                    stockService.update(
-                      stock.idstock || 0,
-                      updatedStock,
-                      (result: any) => {
-                        stockAllocationService.deleteAllocation(orderId);
-                      }
-                    );
-                  }
-                }
-              );
-            }
-          }
-        );
-
-        produceEvent(
-          process.env.SERVICE_NAME || "error",
-          "DISPATCH_COMPLETE",
-          key,
-          "SUCCESS",
-          "Order dispatched",
-          JSON.stringify({
-            dispatchedDate: today,
-          }),
-          process.env.ORDER_RESPONSE_TOPIC || "error"
-        );
       }
+
+      await consumer.commitOffsets([
+        {
+          topic,
+          partition,
+          offset: (Number(message.offset) + 1).toString(),
+        },
+      ]);
     },
   });
 };
@@ -185,4 +146,4 @@ const produceEvent = async (
   kafkaProducer(topic, event, key);
 };
 
-export default kafkaListener;
+export default allocationListener;

@@ -2,8 +2,9 @@ import express, { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import logger from "./logger/logger";
-import kafkaListener from "./kafka/kafka-consumer";
 import routes from "./routes";
+import allocationListener from "./kafka/allocation-consumer";
+import allocationResponseListener from "./kafka/allocation-response-consumer";
 
 dotenv.config();
 const port = process.env.SERVICE_PORT;
@@ -15,7 +16,12 @@ app.use(routes);
 // const listEndpoints = require("express-list-endpoints"); // npm i express-list-endpoints
 // console.log(listEndpoints(app));
 
-kafkaListener().catch((e) => logger.error("error on subscribing to topic"));
+allocationListener().catch((e) =>
+  logger.error("error on subscribing to topic")
+);
+allocationResponseListener().catch((e) =>
+  logger.error("error on subscribing to topic")
+);
 
 app.listen(port, () => {
   logger.info(`New Connection service running on port ${port}`);
